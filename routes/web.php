@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/empleado', function () { //Ruta
+    return view('empleado.index'); //Carpeta.archivo
+});
