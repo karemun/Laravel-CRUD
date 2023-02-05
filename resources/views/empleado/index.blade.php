@@ -24,7 +24,18 @@ Hola Mundo
             <td>{{ $empleado->ApellidoPaterno }}</td>
             <td>{{ $empleado->ApellidoMaterno }}</td>
             <td>{{ $empleado->Correo }}</td>
-            <td>Editar | Borrar</td>
+            <td>Editar | 
+            
+            {{-- Formulario Borrar: se manda el id del empleado a eliminar --}}
+            <form action="{{ url('/empleado/'.$empleado->id) }}" method="post">
+                @csrf
+                {{-- Transformar metodo POST a DELETE --}}
+                {{ method_field('DELETE') }}
+                {{-- onclick: js para preguntar confirmacion --}}
+                <input type="submit" onclick="return confirm('¿Quieres borrar?')" value="Borrar">
+            </form>
+
+            </td>
         </tr>
         @endforeach
     </tbody>
