@@ -14,8 +14,16 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        //Accede a la vista -> empleado -> index.blade.php
-        return view('empleado.index');
+        /**
+         * Almacena los primeros 5 registros de la BD en 'empleados'
+         * la variable 'empleados' se usara en index.blade para
+         * acceder a los datos
+         * 
+        */
+        $datos['empleados']=Empleado::paginate(5);
+
+        //Accede a la vista -> empleado -> index.blade.php, le pasa los datos
+        return view('empleado.index', $datos);
     }
 
     /**
