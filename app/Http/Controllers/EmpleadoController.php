@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Empleado;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage; //Para borrar imagen
 
 class EmpleadoController extends Controller
 {
@@ -82,9 +83,12 @@ class EmpleadoController extends Controller
      * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function edit(Empleado $empleado)
+    public function edit($id)
     {
-        //
+        //Se busca la informacion a partir del id
+        $empleado = Empleado::findOrFail($id);
+        //Retorna a la vista edit.blade, pasando la informacion del empleado
+        return view('empleado.edit', compact('empleado'));
     }
 
     /**
@@ -94,9 +98,28 @@ class EmpleadoController extends Controller
      * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Empleado $empleado)
+    public function update(Request $request, $id)
     {
-        //
+        //Almacena todo menos el token de seguridad (csrf) y el metodo(PATCH)
+        $datosEmpleado = request()->except(['_token','_method']);
+
+        if($request->hasFile('Foto')){ //Si el input Foto, tiene un archivo
+            
+            $empleado = Empleado::findOrFail($id); //Busca toda la informacion
+
+            Storage::delete('public/'.$empleado->Foto); //Se borra la foto antigua
+
+            $datosEmpleado['Foto'] = $request->file('Foto')->store('uploads', 'public'); //Se guarda la nueva foto
+        }
+
+        //Si el id coincide, se actualizan los datos
+        Empleado::where('id','=',$id)->update($datosEmpleado);
+
+        /*Se busca la informacion a partir del id
+        $empleado = Empleado::findOrFail($id);
+        //Retorna a la vista edit.blade, pasando la informacion del empleado (actualizada)
+        return view('empleado.edit', compact('empleado'));*/
+        return redirect('empleado'); //Se redirecciona a empleado
     }
 
     /**
