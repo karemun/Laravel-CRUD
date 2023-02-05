@@ -14,7 +14,8 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        //
+        //Accede a la vista -> empleado -> index.blade.php
+        return view('empleado.index');
     }
 
     /**
@@ -24,18 +25,36 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
-        //
+        //Accede a la vista -> empleado -> create.blade.php
+        return view('empleado.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
+     * Esta funcion recibe toda la informacion
+     * y la prepara para mandarla a la BD
+     * 
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         //
+        //$datosEmpleado = request()->all();      //Almacena todos los datos enviados
+        $datosEmpleado = request()->except('_token'); //Almacena todo menos el token de seguridad (csrf)
+        
+        if($request->hasFile('Foto')){ //Si el input Foto, tiene un archivo
+            /**
+             * El campo Foto se inserta en la ruta:
+             * storage/app/public/uploads
+             */
+            $datosEmpleado['Foto'] = $request->file('Foto')->store('uploads', 'public');
+        }
+
+        Empleado::insert($datosEmpleado);       //Inserta los datos en la BD
+
+        return response()->json($datosEmpleado);//Los envia a un archivo json
     }
 
     /**
