@@ -63,7 +63,9 @@ class EmpleadoController extends Controller
 
         Empleado::insert($datosEmpleado);       //Inserta los datos en la BD
 
-        return response()->json($datosEmpleado);//Los envia a un archivo json
+        //Redirecciona al index y muestra mensaje
+        return redirect('empleado')->with('mensaje', 'Empleado agregado con exito.');
+        //return response()->json($datosEmpleado);//Los envia a un archivo json
     }
 
     /**
@@ -119,7 +121,7 @@ class EmpleadoController extends Controller
         $empleado = Empleado::findOrFail($id);
         //Retorna a la vista edit.blade, pasando la informacion del empleado (actualizada)
         return view('empleado.edit', compact('empleado'));*/
-        return redirect('empleado'); //Se redirecciona a empleado
+        return redirect('empleado')->with('mensaje', 'Empleado actualizado.');
     }
 
     /**
@@ -130,8 +132,12 @@ class EmpleadoController extends Controller
      */
     public function destroy($id)
     {
-        //Elimina los datos del id
-        Empleado::destroy($id);
-        return redirect('empleado'); //Se redirecciona a empleado
+        $empleado = Empleado::findOrFail($id); //Busca toda la informacion segun el id
+
+        if(Storage::delete('public/'.$empleado->Foto)){ //Se borra la foto del almacenamiento
+            //Elimina los datos del empleado
+            Empleado::destroy($id);
+        }
+        return redirect('empleado')->with('mensaje', 'Empleado eliminado.');
     }
 }

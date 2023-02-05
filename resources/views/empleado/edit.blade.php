@@ -6,5 +6,7 @@
     {{-- PATH: actualizar los datos --}}
     {{ method_field('PATCH') }}
 
-    @include('empleado.form') {{-- Se utiliza el codigo de views/empleado/form --}}
+    {{-- Se utiliza el codigo de views/empleado/form 
+         Se manda mensaje para cambiar lo que dice el boton --}}
+    @include('empleado.form',['modo'=>'Editar'])
 </form>

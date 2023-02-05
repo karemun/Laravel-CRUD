@@ -1,4 +1,11 @@
-Hola Mundo
+
+{{-- Si hay un mensaje: en caso de eliminar o editar --}}
+@if (Session::has('mensaje'))
+    {{-- Muestra el mensaje --}}
+    {{ Session::get('mensaje') }}
+@endif
+
+<a href="{{ url('empleado/create') }}">Registrar nuevo empleado</a>
 
 <table class="table table-light">
 

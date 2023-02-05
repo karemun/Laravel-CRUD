@@ -1,4 +1,3 @@
-Formulario de creacion de empleado
 
 {{-- enctype: permite enviar fotos/archivos --}}
 {{-- La informacion se envia a empleado (automaticamente va a empleado.store) --}}
@@ -6,6 +5,8 @@ Formulario de creacion de empleado
 
     @csrf {{-- Llave de seguridad de Laravel al enviar formulario --}}
 
-    @include('empleado.form') {{-- Se utiliza el codigo de views/empleado/form --}}
+    {{-- Se utiliza el codigo de views/empleado/form 
+         Se manda mensaje para cambiar lo que dice el boton --}}
+    @include('empleado.form',['modo'=>'Crear'])
 
 </form>
