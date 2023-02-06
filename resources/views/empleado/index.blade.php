@@ -5,8 +5,13 @@
 
     {{-- Si hay un mensaje: en caso de eliminar o editar --}}
     @if (Session::has('mensaje'))
-        {{-- Muestra el mensaje --}}
-        {{ Session::get('mensaje') }}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{-- Muestra el mensaje --}}
+            {{ Session::get('mensaje') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
     @endif
 
     <a href="{{ url('empleado/create') }}" class="btn btn-success">Registrar nuevo empleado</a>
@@ -66,5 +71,8 @@
         </tbody>
 
     </table>
+
+{!! $empleados->links() !!} {{-- Paginacion --}}
+
 </div>
 @endsection

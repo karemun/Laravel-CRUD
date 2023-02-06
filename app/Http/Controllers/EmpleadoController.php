@@ -49,7 +49,23 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Requisitos de cada campo
+        $campos=[
+            'Nombre'=>'required|string|max:100',
+            'ApellidoPaterno'=>'required|string|max:100',
+            'ApellidoMaterno'=>'required|string|max:100',
+            'Correo'=>'required|email',
+            'Foto'=>'required|max:10000|mimes:jpeg,png,jpg',
+        ];
+        //Si el usuario no llena un requisito
+        $mensaje=[
+            'required'=>'El :attribute es requerido', //:atribute señala el atributo que falta
+            'Foto.required'=>'La foto es requerida',
+        ];
+
+        //Validar los datos enviados, requerimientos, mensaje a mostrar
+        $this->validate($request, $campos, $mensaje);
+
         //$datosEmpleado = request()->all();      //Almacena todos los datos enviados
         $datosEmpleado = request()->except('_token'); //Almacena todo menos el token de seguridad (csrf)
         
@@ -102,6 +118,28 @@ class EmpleadoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //Requisitos de cada campo
+        $campos=[
+            'Nombre'=>'required|string|max:100',
+            'ApellidoPaterno'=>'required|string|max:100',
+            'ApellidoMaterno'=>'required|string|max:100',
+            'Correo'=>'required|email',
+        ];
+        //Si el usuario no llena un requisito
+        $mensaje=[
+            'required'=>'El :attribute es requerido', //:atribute señala el atributo que falta
+            'Foto.required'=>'La foto es requerida',
+        ];
+
+        if($request->hasFile('Foto')){ //Si el usuario agrega nueva img
+            $campos=['Foto'=>'required|max:10000|mimes:jpeg,png,jpg'];
+            $mensaje=['Foto.required'=>'La foto es requerida'];
+        }
+
+        //Validar los datos enviados, requerimientos, mensaje a mostrar
+        $this->validate($request, $campos, $mensaje);
+
+
         //Almacena todo menos el token de seguridad (csrf) y el metodo(PATCH)
         $datosEmpleado = request()->except(['_token','_method']);
 
@@ -117,10 +155,6 @@ class EmpleadoController extends Controller
         //Si el id coincide, se actualizan los datos
         Empleado::where('id','=',$id)->update($datosEmpleado);
 
-        /*Se busca la informacion a partir del id
-        $empleado = Empleado::findOrFail($id);
-        //Retorna a la vista edit.blade, pasando la informacion del empleado (actualizada)
-        return view('empleado.edit', compact('empleado'));*/
         return redirect('empleado')->with('mensaje', 'Empleado actualizado.');
     }
 
