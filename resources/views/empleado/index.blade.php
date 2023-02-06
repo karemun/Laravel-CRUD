@@ -9,8 +9,9 @@
         {{ Session::get('mensaje') }}
     @endif
 
-    <a href="{{ url('empleado/create') }}">Registrar nuevo empleado</a>
-
+    <a href="{{ url('empleado/create') }}" class="btn btn-success">Registrar nuevo empleado</a>
+    <br>
+    <br>
     <table class="table table-light">
 
         <thead class="thead-light">
@@ -34,7 +35,7 @@
                 <td>
                     {{-- Se accede a la imagen almacenada en storage/app/public/uploads
                         Comando para dar acceso: php artisan storage:link  --}}
-                    <img src="{{ asset('storage').'/'.$empleado->Foto }}" alt="Imagen de perfil" width="100">
+                    <img src="{{ asset('storage').'/'.$empleado->Foto }}" alt="Imagen de perfil" width="100" class="img-thumbnail img-fluid">
                 </td>
 
                 <td>{{ $empleado->Nombre }}</td>
@@ -44,7 +45,7 @@
                 <td>
                     {{-- Enlace Editar: se manda el id del empleado y lleva a edit.blade 
                         Se ejecuta en automatico la funcion edit del controllador     --}}
-                    <a href="{{ url('/empleado/'.$empleado->id.'/edit') }}">
+                    <a href="{{ url('/empleado/'.$empleado->id.'/edit') }}" class="btn btn-warning">
                         Editar
                     </a>
 
@@ -52,12 +53,12 @@
                     
                     {{-- Formulario Borrar: se manda el id del empleado a eliminar 
                         Se ejecuta en automatico la funcion destroy del controllador   --}}
-                    <form action="{{ url('/empleado/'.$empleado->id) }}" method="post">
+                    <form action="{{ url('/empleado/'.$empleado->id) }}" method="post" class="d-inline">
                         @csrf
                         {{-- Transformar metodo POST a DELETE --}}
                         {{ method_field('DELETE') }}
                         {{-- onclick: js para preguntar confirmacion --}}
-                        <input type="submit" onclick="return confirm('¿Quieres borrar?')" value="Borrar">
+                        <input type="submit" onclick="return confirm('¿Quieres borrar?')" value="Borrar" class="btn btn-danger">
                     </form>
                 </td>
             </tr>
