@@ -16,12 +16,12 @@ class EmpleadoController extends Controller
     public function index()
     {
         /**
-         * Almacena los primeros 5 registros de la BD en 'empleados'
-         * la variable 'empleados' se usara en index.blade para
+         * Almacena los primeros 3 registros de la BD en 'empleados'
+         * La variable 'empleados' se usara en index.blade para
          * acceder a los datos
          * 
         */
-        $datos['empleados']=Empleado::paginate(5);
+        $datos['empleados']=Empleado::paginate(3);
 
         //Accede a la vista -> empleado -> index.blade.php, le pasa los datos
         return view('empleado.index', $datos);
@@ -51,9 +51,9 @@ class EmpleadoController extends Controller
     {
         //Requisitos de cada campo
         $campos=[
-            'Nombre'=>'required|string|max:100',
-            'ApellidoPaterno'=>'required|string|max:100',
-            'ApellidoMaterno'=>'required|string|max:100',
+            'Nombre'=>'required|string|max:35',
+            'ApellidoPaterno'=>'required|string|max:35',
+            'ApellidoMaterno'=>'required|string|max:35',
             'Correo'=>'required|email',
             'Foto'=>'required|max:10000|mimes:jpeg,png,jpg',
         ];
@@ -120,9 +120,9 @@ class EmpleadoController extends Controller
     {
         //Requisitos de cada campo
         $campos=[
-            'Nombre'=>'required|string|max:100',
-            'ApellidoPaterno'=>'required|string|max:100',
-            'ApellidoMaterno'=>'required|string|max:100',
+            'Nombre'=>'required|string|max:35',
+            'ApellidoPaterno'=>'required|string|max:35',
+            'ApellidoMaterno'=>'required|string|max:35',
             'Correo'=>'required|email',
         ];
         //Si el usuario no llena un requisito
